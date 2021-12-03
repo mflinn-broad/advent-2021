@@ -14,19 +14,17 @@ fn process_input(input: String) -> Vec<i64> {
 }
 
 fn part_1 (data: &Vec<i64>) -> usize {
-    let mut count: usize = 0;
-    let last_idx = data.len();
-    for i in 1..last_idx {
-        if data[i] > data[i-1] {
-            count += 1;
-        }
-    }
-    count
+    get_num_increasing_windows(2, data)
 }
 
 fn part_2 (data: &Vec<i64>) -> usize {
-    data.windows(4)
-      .fold(0, |acc, win| if win[0] < win[3] {acc + 1} else {acc})
+    get_num_increasing_windows(4, data)
+}
+
+fn get_num_increasing_windows(window_size: usize, data: &Vec<i64>) -> usize {
+    data.windows(window_size)
+        .filter(|window| window[0] < window[window_size - 1])
+        .count()
 }
 
 pub fn run() {
