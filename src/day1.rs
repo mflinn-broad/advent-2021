@@ -34,3 +34,27 @@ pub fn run() {
     println!("part 1: {}", part_1(&data));
     println!("part2: {}", part_2(&data));
 }
+
+#[cfg(test)]
+mod tests{
+    use super::*;
+    
+    extern crate test;
+    use test::Bencher;
+
+    #[bench]
+    fn bench_part_1(b: &mut Bencher) {
+        let input = process_input(read_input("inputs/day1.txt").unwrap());
+        b.iter(|| {
+            part_1(&input)
+        });
+    }
+
+    #[bench]
+    fn bench_part_2(b: &mut Bencher) {
+        let input = process_input(read_input("inputs/day1.txt").unwrap());
+        b.iter(||{
+            part_2(&input)
+        })
+    }
+}
