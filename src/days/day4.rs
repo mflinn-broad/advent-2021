@@ -172,7 +172,7 @@ fn part_2(cards: &mut Vec<BingoCard>, nums: CalledNumbers) -> u64 {
    })
 }
 
-fn calculate_games<F,>(cards: &mut Vec<BingoCard>, nums: CalledNumbers, sort_func: F,) -> u64 
+fn calculate_games<F>(cards: &mut Vec<BingoCard>, nums: CalledNumbers, sort_func: F,) -> u64 
 where
     F: FnMut(&&BingoCard, &&BingoCard) -> Ordering,
 {
