@@ -1,11 +1,4 @@
-use std::{fs::File, io::{Error, Read}};
-
-fn read_input(path: &str) -> Result<String, Error> {
-    let mut file_handle = File::open(path)?;
-    let mut content = String::new();
-    file_handle.read_to_string(&mut content)?;
-    Ok(content)
-}
+use crate::util;
 
 #[derive(Debug)]
 enum Direction {
@@ -60,7 +53,7 @@ fn part_2(input: &Vec<(Direction, i64)>) -> i64 {
 
 
 pub fn run() {
-    let input = read_input("inputs/day2.txt");
+    let input = util::read_input("inputs/day2.txt");
     let input = process_input(input.unwrap());
     println!("part 1: {}", part_1(&input));
     println!("part 2: {}", part_2(&input));
@@ -75,7 +68,7 @@ mod tests{
 
     #[bench]
     fn bench_part_1(b: &mut Bencher) {
-        let input = process_input(read_input("inputs/day2.txt").unwrap());
+        let input = process_input(util::read_input("inputs/day2.txt").unwrap());
         b.iter(|| {
             part_1(&input)
         });
@@ -83,7 +76,7 @@ mod tests{
 
     #[bench]
     fn bench_part_2(b: &mut Bencher) {
-        let input = process_input(read_input("inputs/day2.txt").unwrap());
+        let input = process_input(util::read_input("inputs/day2.txt").unwrap());
         b.iter(||{
             part_2(&input)
         })

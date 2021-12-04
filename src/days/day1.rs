@@ -1,11 +1,4 @@
-use std::{fs::File, io::{Error, Read}};
-
-fn read_input(path: &str) -> Result<String, Error> {
-    let mut file_handle = File::open(path)?;
-    let mut content = String::new();
-    file_handle.read_to_string(&mut content)?;
-    Ok(content)
-}
+use crate::util;
 
 fn process_input(input: String) -> Vec<i64> {
     input.split_whitespace()
@@ -28,7 +21,7 @@ fn get_num_increasing_windows(window_size: usize, data: &Vec<i64>) -> usize {
 }
 
 pub fn run() {
-    let input = read_input("inputs/day1.txt");
+    let input = util::read_input("inputs/day1.txt");
     let data = process_input(input.unwrap());
 
     println!("part 1: {}", part_1(&data));
@@ -44,7 +37,7 @@ mod tests{
 
     #[bench]
     fn bench_part_1(b: &mut Bencher) {
-        let input = process_input(read_input("inputs/day1.txt").unwrap());
+        let input = process_input(util::read_input("inputs/day1.txt").unwrap());
         b.iter(|| {
             part_1(&input)
         });
@@ -52,7 +45,7 @@ mod tests{
 
     #[bench]
     fn bench_part_2(b: &mut Bencher) {
-        let input = process_input(read_input("inputs/day1.txt").unwrap());
+        let input = process_input(util::read_input("inputs/day1.txt").unwrap());
         b.iter(||{
             part_2(&input)
         })

@@ -1,14 +1,7 @@
-use std::{fs::File, io::{Error, Read}};
+use crate::util;
 
 const WIDTH: usize = 12;
 const LENGTH: usize = 1000;
-
-fn read_input(path: &str) -> Result<String, Error> {
-    let mut file_handle = File::open(path)?;
-    let mut content = String::new();
-    file_handle.read_to_string(&mut content)?;
-    Ok(content)
-}
 
 fn get_most_common_bits(nums: Vec<usize>) -> Vec<usize> {
     nums
@@ -70,7 +63,7 @@ fn part_2(input: &str) -> usize {
 
 
 pub fn run() {
-    let input = read_input("inputs/day3.txt").unwrap();
+    let input = util::read_input("inputs/day3.txt").unwrap();
     println!("part 1: {}", part_1(&input));
     println!("part 2: {}", part_2(&input));
 }
@@ -84,7 +77,7 @@ mod tests{
 
     #[bench]
     fn bench_part_1(b: &mut Bencher) {
-        let input = read_input("inputs/day3.txt").unwrap();
+        let input = util::read_input("inputs/day3.txt").unwrap();
         b.iter(|| {
             part_1(&input)
         });
@@ -92,7 +85,7 @@ mod tests{
 
     #[bench]
     fn bench_part_2(b: &mut Bencher) {
-        let input = read_input("inputs/day3.txt").unwrap();
+        let input = util::read_input("inputs/day3.txt").unwrap();
         b.iter(||{
             part_2(&input)
         })

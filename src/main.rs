@@ -1,4 +1,4 @@
-use advent_2021::*;
+use advent_2021::days::*;
 
 fn main() {
     println!("Day 1 --------");
