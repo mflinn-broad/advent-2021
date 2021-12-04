@@ -156,7 +156,7 @@ fn process_card(card: &str) -> BingoCard {
     BingoCard::new(&card_data)
 }
 
-fn part_1(cards: &mut Vec<BingoCard>, nums: Vec<u64>) -> u64 {
+fn part_1(cards: &mut Vec<BingoCard>, nums: CalledNumbers) -> u64 {
     calculate_games(cards, nums, |a, b| {
         let a_winning_turn = a.winning_turn.unwrap();
         let b_winning_turn = b.winning_turn.unwrap();
@@ -164,7 +164,7 @@ fn part_1(cards: &mut Vec<BingoCard>, nums: Vec<u64>) -> u64 {
     })
 }
 
-fn part_2(cards: &mut Vec<BingoCard>, nums: Vec<u64>) -> u64 {
+fn part_2(cards: &mut Vec<BingoCard>, nums: CalledNumbers) -> u64 {
    calculate_games(cards, nums, |a, b| {
        let a_winning_turn = a.winning_turn.unwrap();
        let b_winning_turn = b.winning_turn.unwrap();
@@ -172,7 +172,7 @@ fn part_2(cards: &mut Vec<BingoCard>, nums: Vec<u64>) -> u64 {
    })
 }
 
-fn calculate_games<F,>(cards: &mut Vec<BingoCard>, nums: Vec<u64>, sort_func: F,) -> u64 
+fn calculate_games<F,>(cards: &mut Vec<BingoCard>, nums: CalledNumbers, sort_func: F,) -> u64 
 where
     F: FnMut(&&BingoCard, &&BingoCard) -> Ordering,
 {
