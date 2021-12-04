@@ -4,19 +4,18 @@ const WIDTH: usize = 12;
 const LENGTH: usize = 1000;
 
 fn get_most_common_bits(nums: Vec<usize>) -> Vec<usize> {
-    nums
-        .iter()
-        .fold(vec![0; WIDTH], |counts, bits| {
-            counts
-                .into_iter()
-                .enumerate()
-                .map(|(i, curr)| curr + ((bits & 1 << i) >> i))
-                .collect()
-        })
+    nums.iter().fold(vec![0; WIDTH], |counts, bits| {
+        counts
+            .into_iter()
+            .enumerate()
+            .map(|(i, curr)| curr + ((bits & 1 << i) >> i))
+            .collect()
+    })
 }
 
 fn part_1(input: &str) -> usize {
-    let nums:Vec<usize> = input.lines()
+    let nums: Vec<usize> = input
+        .lines()
         .map(|line| usize::from_str_radix(line.trim(), 2).unwrap())
         .collect();
     let counts = get_most_common_bits(nums);
@@ -33,20 +32,20 @@ fn part_1(input: &str) -> usize {
     gamma * epsilon
 }
 
-
 fn part_2(input: &str) -> usize {
-    let nums: Vec<usize> = input.lines()
+    let nums: Vec<usize> = input
+        .lines()
         .map(|line| usize::from_str_radix(line.trim(), 2).unwrap())
         .collect();
     let oxy = (0..WIDTH)
-    .rev()
-    .scan(nums.clone(), |oxy, i| {
-        let one = oxy.iter().filter(|n| *n & 1 << i > 0).count() >= (oxy.len() + 1) / 2;
-        oxy.drain_filter(|n| (*n & 1 << i > 0) != one);
-        oxy.first().copied()
-    })
-    .last()
-    .unwrap();
+        .rev()
+        .scan(nums.clone(), |oxy, i| {
+            let one = oxy.iter().filter(|n| *n & 1 << i > 0).count() >= (oxy.len() + 1) / 2;
+            oxy.drain_filter(|n| (*n & 1 << i > 0) != one);
+            oxy.first().copied()
+        })
+        .last()
+        .unwrap();
 
     let co2 = (0..WIDTH)
         .rev()
@@ -61,7 +60,6 @@ fn part_2(input: &str) -> usize {
     oxy * co2
 }
 
-
 pub fn run() {
     let input = util::read_input("inputs/day3.txt").unwrap();
     println!("part 1: {}", part_1(&input));
@@ -69,25 +67,21 @@ pub fn run() {
 }
 
 #[cfg(test)]
-mod tests{
+mod tests {
     use super::*;
-    
+
     extern crate test;
     use test::Bencher;
 
     #[bench]
     fn bench_part_1(b: &mut Bencher) {
         let input = util::read_input("inputs/day3.txt").unwrap();
-        b.iter(|| {
-            part_1(&input)
-        });
+        b.iter(|| part_1(&input));
     }
 
     #[bench]
     fn bench_part_2(b: &mut Bencher) {
         let input = util::read_input("inputs/day3.txt").unwrap();
-        b.iter(||{
-            part_2(&input)
-        })
+        b.iter(|| part_2(&input))
     }
 }

@@ -13,44 +13,38 @@ impl From<&str> for Direction {
             "forward" => Direction::Forward,
             "down" => Direction::Down,
             "up" => Direction::Up,
-            _ => panic!()
+            _ => panic!(),
         }
     }
 }
 
 fn process_input(input: String) -> Vec<(Direction, i64)> {
-    input.lines()
+    input
+        .lines()
         .map(|line| {
             let cell: Vec<_> = line.trim().split_whitespace().collect();
             (Direction::from(cell[0]), cell[1].parse().unwrap())
-        }) 
+        })
         .collect()
 }
 
-fn part_1(input: &Vec<(Direction, i64)>) -> i64 {   
-    let position = input.iter()
-        .fold((0, 0), |acc, (dir, amt) | {
-            match dir {
-                Direction::Forward => (acc.0 + amt, acc.1),
-                Direction::Down => (acc.0, acc.1 + amt),
-                Direction::Up => (acc.0, acc.1 - amt),
-            }
-        });
+fn part_1(input: &Vec<(Direction, i64)>) -> i64 {
+    let position = input.iter().fold((0, 0), |acc, (dir, amt)| match dir {
+        Direction::Forward => (acc.0 + amt, acc.1),
+        Direction::Down => (acc.0, acc.1 + amt),
+        Direction::Up => (acc.0, acc.1 - amt),
+    });
     position.0 * position.1
 }
 
 fn part_2(input: &Vec<(Direction, i64)>) -> i64 {
-    let coordinates = input.iter()
-        .fold((0, 0, 0), |acc, (dir, amt)| {
-            match dir {
-                Direction::Forward => (acc.0 + amt, acc.1 + amt * acc.2, acc.2),
-                Direction::Down => (acc.0, acc.1, acc.2 + amt),
-                Direction::Up => (acc.0, acc.1, acc.2 - amt),
-            }
-        });
+    let coordinates = input.iter().fold((0, 0, 0), |acc, (dir, amt)| match dir {
+        Direction::Forward => (acc.0 + amt, acc.1 + amt * acc.2, acc.2),
+        Direction::Down => (acc.0, acc.1, acc.2 + amt),
+        Direction::Up => (acc.0, acc.1, acc.2 - amt),
+    });
     coordinates.0 * coordinates.1
 }
-
 
 pub fn run() {
     let input = util::read_input("inputs/day2.txt");
@@ -60,25 +54,21 @@ pub fn run() {
 }
 
 #[cfg(test)]
-mod tests{
+mod tests {
     use super::*;
-    
+
     extern crate test;
     use test::Bencher;
 
     #[bench]
     fn bench_part_1(b: &mut Bencher) {
         let input = process_input(util::read_input("inputs/day2.txt").unwrap());
-        b.iter(|| {
-            part_1(&input)
-        });
+        b.iter(|| part_1(&input));
     }
 
     #[bench]
     fn bench_part_2(b: &mut Bencher) {
         let input = process_input(util::read_input("inputs/day2.txt").unwrap());
-        b.iter(||{
-            part_2(&input)
-        })
+        b.iter(|| part_2(&input))
     }
 }

@@ -1,16 +1,17 @@
 use crate::util;
 
 fn process_input(input: String) -> Vec<i64> {
-    input.split_whitespace()
+    input
+        .split_whitespace()
         .map(|num| num.parse().unwrap())
         .collect()
 }
 
-fn part_1 (data: &Vec<i64>) -> usize {
+fn part_1(data: &Vec<i64>) -> usize {
     get_num_increasing_windows(2, data)
 }
 
-fn part_2 (data: &Vec<i64>) -> usize {
+fn part_2(data: &Vec<i64>) -> usize {
     get_num_increasing_windows(4, data)
 }
 
@@ -29,25 +30,21 @@ pub fn run() {
 }
 
 #[cfg(test)]
-mod tests{
+mod tests {
     use super::*;
-    
+
     extern crate test;
     use test::Bencher;
 
     #[bench]
     fn bench_part_1(b: &mut Bencher) {
         let input = process_input(util::read_input("inputs/day1.txt").unwrap());
-        b.iter(|| {
-            part_1(&input)
-        });
+        b.iter(|| part_1(&input));
     }
 
     #[bench]
     fn bench_part_2(b: &mut Bencher) {
         let input = process_input(util::read_input("inputs/day1.txt").unwrap());
-        b.iter(||{
-            part_2(&input)
-        })
+        b.iter(|| part_2(&input))
     }
 }
