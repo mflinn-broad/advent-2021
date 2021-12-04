@@ -1,8 +1,10 @@
+use std::cmp::Ordering;
+
 use crate::util;
 
 type CalledNumbers = Vec<u64>;
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 struct BingoCard {
     card: Vec<Vec<Cell>>,
     winning_turn: Option<usize>,
@@ -94,7 +96,7 @@ impl BingoCard {
     }
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone, Copy)]
 struct Cell {
     val: u64,
     state: State,
@@ -109,7 +111,7 @@ impl Cell {
     }
 }
 
-#[derive(Debug,PartialEq)]
+#[derive(Debug,PartialEq, Clone, Copy)]
 enum State {
     Marked,
     Unmarked,
@@ -118,7 +120,8 @@ enum State {
 pub fn run() {
     let raw_input = util::read_input("inputs/day4.txt").unwrap();
     let mut input = process(&raw_input);
-    println!("Part 1: {:#?}", part_1(&mut input.1, input.0));
+    println!("Part 1: {:#?}", part_1(&mut input.1.clone(), input.0.clone()));
+    println!("Part 2: {:#?}", part_2(&mut input.1, input.0))
 }
 
 fn process(input: &str) -> (CalledNumbers, Vec<BingoCard>) {
@@ -154,6 +157,25 @@ fn process_card(card: &str) -> BingoCard {
 }
 
 fn part_1(cards: &mut Vec<BingoCard>, nums: Vec<u64>) -> u64 {
+    calculate_games(cards, nums, |a, b| {
+        let a_winning_turn = a.winning_turn.unwrap();
+        let b_winning_turn = b.winning_turn.unwrap();
+        a_winning_turn.cmp(&b_winning_turn)
+    })
+}
+
+fn part_2(cards: &mut Vec<BingoCard>, nums: Vec<u64>) -> u64 {
+   calculate_games(cards, nums, |a, b| {
+       let a_winning_turn = a.winning_turn.unwrap();
+       let b_winning_turn = b.winning_turn.unwrap();
+       b_winning_turn.cmp(&a_winning_turn)
+   })
+}
+
+fn calculate_games<F,>(cards: &mut Vec<BingoCard>, nums: Vec<u64>, sort_func: F,) -> u64 
+where
+    F: FnMut(&&BingoCard, &&BingoCard) -> Ordering,
+{
     cards
         .iter_mut()
         .for_each(|card| card.play(&nums));
@@ -161,11 +183,7 @@ fn part_1(cards: &mut Vec<BingoCard>, nums: Vec<u64>) -> u64 {
         .iter()
         .filter(|card| card.winning_turn != None)
         .collect();
-    winners.sort_by(|&card_a, &card_b| {
-        let card_a_win_turn = card_a.winning_turn.unwrap();
-        let card_b_win_ture = card_b.winning_turn.unwrap();
-        card_a_win_turn.cmp(&card_b_win_ture)
-    });
+    winners.sort_by(sort_func);
     let winner_score = winners[0].score();
     let winning_turn = winners[0].winning_turn.unwrap();
     let winning_number = nums[winning_turn];
@@ -178,30 +196,21 @@ mod tests{
     extern crate test;
     use test::Bencher;
 
-    const TEST_DATA: &'static str = r#"7,4,9,5,11,17,23,2,0,14,21,24,10,16,13,6,15,25,12,22,18,20,8,19,3,26,1
+    #[bench]
+    fn bench_part_1(b: &mut Bencher) {
+        let raw_input = util::read_input("inputs/day4.txt").unwrap();
+        b.iter(|| {
+            let mut input = process(&raw_input);
+            part_1(&mut input.1, input.0);
+        });
+    }
 
-22 13 17 11  0
-8  2 23  4 24
-21  9 14 16  7
-6 10  3 18  5
-1 12 20 15 19
-
-3 15  0  2 22
- 9 18 13 17  5
-19  8  7 25 23
-20 11 10 24  4
-14 21 16 12  6
-
-14 21 17 24  4
-10 16 15  9 19
-18  8 23 26 20
-22 11 13  6  5
-2  0 12  3  7"#;
-
-    #[test]
-    fn test_part_1() {
-        let input = process(TEST_DATA);
-        assert_eq!(27, input.0.len());
-        assert_eq!(3, input.1.len());
+    #[bench]
+    fn bench_part_2(b: &mut Bencher) {
+        let raw_input = util::read_input("inputs/day4.txt").unwrap();
+        b.iter(|| {
+            let mut input = process(&raw_input);
+            part_2(&mut input.1, input.0);
+        });
     }
 }
