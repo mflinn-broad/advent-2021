@@ -2,8 +2,6 @@ use crate::util;
 use std::cmp;
 use std::collections::HashMap;
 
-
-
 type Point = (u64, u64);
 type Line = (Point, Point);
 type LineList = Vec<Line>;
@@ -38,32 +36,26 @@ fn process(input: &str) -> LineList {
 fn part_1(input: LineList) -> usize {
     let lines = get_verticals_and_horizontals(input);
     let mut point_tracker: HashMap<Point, usize> = HashMap::new();
-    lines.iter().for_each(|line| {
-        match line_type(line) {
-            LineType::Vertical => update_vertical(&line, &mut point_tracker),
-            LineType::Horizontal => update_horizontal(&line, &mut point_tracker),
-            _ => panic!("unreachable"),
-        }
+    lines.iter().for_each(|line| match line_type(line) {
+        LineType::Vertical => update_vertical(&line, &mut point_tracker),
+        LineType::Horizontal => update_horizontal(&line, &mut point_tracker),
+        _ => panic!("unreachable"),
     });
     count_overlaps(&point_tracker)
 }
 
 fn part_2(lines: LineList) -> usize {
     let mut point_tracker: HashMap<Point, usize> = HashMap::new();
-    lines.iter().for_each(|line| {
-        match line_type(line) {
-            LineType::Vertical => update_vertical(&line, &mut point_tracker),
-            LineType::Horizontal => update_horizontal(&line, &mut point_tracker),
-            _ => update_diagonal(&line, &mut point_tracker),
-        }
+    lines.iter().for_each(|line| match line_type(line) {
+        LineType::Vertical => update_vertical(&line, &mut point_tracker),
+        LineType::Horizontal => update_horizontal(&line, &mut point_tracker),
+        _ => update_diagonal(&line, &mut point_tracker),
     });
     count_overlaps(&point_tracker)
 }
 
 fn count_overlaps(counter: &HashMap<Point, usize>) -> usize {
-    counter.iter()
-        .filter(|(_, count)| **count >= 2)
-        .count()
+    counter.iter().filter(|(_, count)| **count >= 2).count()
 }
 
 fn get_verticals_and_horizontals(lines: LineList) -> LineList {
@@ -129,8 +121,6 @@ fn update_horizontal(line: &Line, counter: &mut HashMap<Point, usize>) {
     }
 }
 
-
-
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -154,5 +144,4 @@ mod tests {
             part_2(input);
         });
     }
-
 }
