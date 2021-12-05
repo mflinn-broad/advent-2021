@@ -9,4 +9,6 @@ fn main() {
     day3::run();
     println!("Day 4 --------");
     day4::run();
+    println!("Day 5 --------");
+    day5::run();
 }
