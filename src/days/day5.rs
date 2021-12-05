@@ -6,7 +6,7 @@ use std::collections::HashMap;
 
 type Point = (u64, u64);
 type Line = (Point, Point);
-type LineList = Vec<(Point, Point)>;
+type LineList = Vec<Line>;
 
 enum LineType {
     Vertical,
