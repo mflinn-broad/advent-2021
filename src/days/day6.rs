@@ -1,5 +1,3 @@
-use core::num;
-use std::thread::current;
 
 use crate::util;
 
@@ -22,6 +20,7 @@ fn process(input: &str) -> [u64; 9] {
 fn part_1(state: [u64; 9]) -> usize {
     process_generations(state, 80)
 }
+
 fn part_2(state: [u64; 9]) -> usize {
     process_generations(state, 256)
 }
