@@ -1,4 +1,3 @@
-
 use crate::util;
 
 pub fn run() {
@@ -6,12 +5,13 @@ pub fn run() {
     let starting_statte = process(&raw_input);
     println!("Part 1: {:?}", part_1(starting_statte));
     println!("Part 2: {:?}", part_2(starting_statte));
-
 }
 
 fn process(input: &str) -> [u64; 9] {
-    let mut tracker: [u64; 9] = [0; 9]; 
-    input.trim().split(',')
+    let mut tracker: [u64; 9] = [0; 9];
+    input
+        .trim()
+        .split(',')
         .map(|day_str| day_str.parse::<u64>().unwrap())
         .for_each(|day| tracker[day as usize] += 1);
     tracker
@@ -26,19 +26,18 @@ fn part_2(state: [u64; 9]) -> usize {
 }
 
 fn process_generations(state: [u64; 9], num_generations: usize) -> usize {
-    let final_state: [u64; 9] = (0..num_generations)
-        .fold(state, |mut curr_state, _| {
-            let mut temp_state: [u64; 9] = [0; 9];
-            temp_state.copy_from_slice(&curr_state);
+    let final_state: [u64; 9] = (0..num_generations).fold(state, |mut curr_state, _| {
+        let mut temp_state: [u64; 9] = [0; 9];
+        temp_state.copy_from_slice(&curr_state);
 
-            for bucket in 1..9 {
-                curr_state[bucket-1] = temp_state[bucket];
-            }
+        for bucket in 1..9 {
+            curr_state[bucket - 1] = temp_state[bucket];
+        }
 
-            curr_state[6] += temp_state[0];
-            curr_state[8] = temp_state[0];
-            curr_state
-        });
+        curr_state[6] += temp_state[0];
+        curr_state[8] = temp_state[0];
+        curr_state
+    });
     final_state.iter().map(|count| *count as usize).sum()
 }
 
