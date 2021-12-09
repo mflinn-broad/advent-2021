@@ -130,3 +130,28 @@ fn part_2(input: &Vec<(Vec<&str>, Vec<&str>)>) -> u32 {
         })
         .sum()
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    extern crate test;
+    use test::Bencher;
+
+    #[bench]
+    fn bench_part_1(b: &mut Bencher) {
+        let raw_input = util::read_input("inputs/day8.txt").unwrap();
+        b.iter(|| {
+            let mut input = process(&raw_input);
+            part_1(&mut input);
+        });
+    }
+
+    #[bench]
+    fn bench_part_2(b: &mut Bencher) {
+        let raw_input = util::read_input("inputs/day8.txt").unwrap();
+        b.iter(|| {
+            let input = process(&raw_input);
+            part_2(&input);
+        });
+    }
+}
