@@ -52,7 +52,7 @@ fn part_2(input: &Vec<Vec<char>>) -> usize {
     // remove corrupted and complete lines
     let completion_scores: Vec<usize> = input
         .iter()
-        .fold(Vec::new(),|mut completions, line| {
+        .map(|line| {
             let mut stack: Vec<char> = Vec::new();
             for symbol in line {
                 match symbol {
@@ -64,18 +64,17 @@ fn part_2(input: &Vec<Vec<char>>) -> usize {
                         stack.pop();
                     }
                     _ => {
-                        return completions;
+                        return Vec::new();
                     }
                 }
             }
-            if stack.len() == 0 {
-                completions
+            if stack.is_empty(){
+                Vec::new()
             } else {
-                completions.push(stack);
-                completions
+                stack
             }
         })
-        .iter()
+        .filter(|completion| !completion.is_empty())
         .map(|completion| {
             completion.iter().rev().fold(0, |score, symbol| match symbol {
                 ')' => (score * 5) + 1,
