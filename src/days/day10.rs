@@ -72,13 +72,16 @@ fn part_2(input: &Vec<Vec<char>>) -> usize {
         })
         .filter(|completion| !completion.is_empty())
         .map(|completion| {
-            completion.iter().rev().fold(0, |score, symbol| match symbol {
-                ')' => (score * 5) + 1,
-                ']' => (score * 5) + 2,
-                '}' => (score * 5) + 3,
-                '>' => (score * 5) + 4,
-                _ => panic!("unreachable"),
-            })
+            completion
+                .iter()
+                .rev()
+                .fold(0, |score, symbol| match symbol {
+                    ')' => (score * 5) + 1,
+                    ']' => (score * 5) + 2,
+                    '}' => (score * 5) + 3,
+                    '>' => (score * 5) + 4,
+                    _ => panic!("unreachable"),
+                })
         })
         .sorted()
         .collect();
