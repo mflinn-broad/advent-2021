@@ -19,4 +19,6 @@ fn main() {
     day8::run();
     println!("Day 9 ---------");
     day9::run();
+    println!("Day 10 ---------");
+    day10::run();
 }
