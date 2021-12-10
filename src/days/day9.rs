@@ -23,6 +23,25 @@ fn is_local_minima(target: u8, adjacents: Vec<u8>) -> bool {
         .all(|val| target < *val)
 }
 
+fn get_adjacents(grid: &Vec<Vec<u8>>, pos: (usize, usize)) -> Vec<u8> {
+    let (row, col) = pos;
+    let mut adjacents: Vec<u8> = Vec::new();
+    if row != 0 {
+        adjacents.push(grid[row - 1][col]);
+    }
+    if col != 0 {
+        adjacents.push(grid[row][col - 1]);
+    }
+    if row != (grid.len() - 1) {
+        adjacents.push(grid[row + 1][col]);
+    }
+    if col != (grid[0].len() - 1) {
+        adjacents.push(grid[row][col + 1]);
+    }
+
+    adjacents
+}
+
 fn part_1(input: &Vec<Vec<u8>>) -> u32 {
     input.iter()
         .enumerate()
@@ -30,19 +49,7 @@ fn part_1(input: &Vec<Vec<u8>>) -> u32 {
             risk_score + row.iter()
                 .enumerate()
                 .fold(0, |row_risk, (col, height)| {
-                    let mut adjacents: Vec<u8> = Vec::new();
-                    if row_idx != 0 {
-                        adjacents.push(input[row_idx - 1][col]);
-                    }
-                    if col != 0 {
-                        adjacents.push(input[row_idx][col - 1]);
-                    }
-                    if row_idx != (input.len() - 1) {
-                        adjacents.push(input[row_idx + 1][col]);
-                    }
-                    if col != (input[0].len() - 1) {
-                        adjacents.push(input[row_idx][col + 1]);
-                    }
+                    let adjacents = get_adjacents(input, (row_idx, col));
                     if is_local_minima(*height, adjacents) {
                         row_risk + (*height as u32) + 1
                     } else {
