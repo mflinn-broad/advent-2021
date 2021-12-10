@@ -60,7 +60,7 @@ fn part_2(input: &Vec<Vec<char>>) -> usize {
                     '[' => stack.push(']'),
                     '{' => stack.push('}'),
                     '<' => stack.push('>'),
-                    x if *x == stack[stack.len() - 1] => {
+                    x if x == stack.last().unwrap() => {
                         stack.pop();
                     }
                     _ => {
@@ -68,11 +68,7 @@ fn part_2(input: &Vec<Vec<char>>) -> usize {
                     }
                 }
             }
-            if stack.is_empty(){
-                Vec::new()
-            } else {
-                stack
-            }
+            stack
         })
         .filter(|completion| !completion.is_empty())
         .map(|completion| {
