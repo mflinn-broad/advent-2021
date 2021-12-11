@@ -3,10 +3,11 @@ use crate::util;
 pub fn run() {
     let raw_input = util::read_input("inputs/day11.txt").unwrap();
     let input = process(&raw_input);
-    println!("Part 1: {}", part_1(input));
+    println!("Part 1: {}", part_1(input.clone()));
+    println!("Part 2: {}", part_2(input));
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone, Copy)]
 struct Octopus {
     e_level: u32,
     flashed_on_step: bool,
@@ -118,7 +119,7 @@ fn propagate_flash(pos: Position, grid: &mut Vec<Vec<Octopus>>) {
 fn part_1(input: Vec<Vec<Octopus>>) -> usize {
     let mut input = input;
     let mut flash_counter: usize = 0;
-    for step in 0..100 {
+    for _ in 0..100 {
         for row in 0..input.len() {
             for col in 0..input[0].len() {
                 input[row][col].increase();
@@ -146,8 +147,41 @@ fn part_1(input: Vec<Vec<Octopus>>) -> usize {
     flash_counter
 }
 
+fn part_2(input: Vec<Vec<Octopus>>) -> usize {
+    let mut input = input;
+    for step in 0.. {
+        let mut flash_counter = 0;
+        for row in 0..input.len() {
+            for col in 0..input[0].len() {
+                input[row][col].increase();
+            }
+        }
+        for row in 0..input.len() {
+            for col in 0..input[0].len() {
+                if input[row][col].e_level > 9 && !input[row][col].flashed_on_step {
+                    let pos = Position { row, col };
+                    input[row][col].flashed_on_step = true;
+                    propagate_flash(pos, &mut input);
+                }
+            }
+        }
+        for row in 0..input.len() {
+            for col in 0..input[0].len() {
+                if input[row][col].flashed_on_step {
+                    flash_counter += 1;
+                    input[row][col].e_level = 0;
+                    input[row][col].flashed_on_step = false;
+                }
+            }
+        }
+        if flash_counter == 100 {
+            return step + 1;
+        }
+    }
+    0
+}
+
 fn process(input: &str) -> Vec<Vec<Octopus>> {
-    
     input.lines()
         .map(|line| {
             line.chars()
@@ -158,4 +192,29 @@ fn process(input: &str) -> Vec<Vec<Octopus>> {
                 .collect()
         })
         .collect()
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    extern crate test;
+    use test::Bencher;
+
+    #[bench]
+    fn bench_part_1(b: &mut Bencher) {
+        let raw_input = util::read_input("inputs/day11.txt").unwrap();
+        b.iter(|| {
+            let input = process(&raw_input);
+            part_1(input);
+        });
+    }
+
+    #[bench]
+    fn bench_part_2(b: &mut Bencher) {
+        let raw_input = util::read_input("inputs/day11.txt").unwrap();
+        b.iter(|| {
+            let input = process(&raw_input);
+            part_2(input);
+        });
+    }
 }
