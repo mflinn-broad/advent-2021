@@ -1,6 +1,8 @@
 use advent_2021::days::*;
+use std::time::{Duration, Instant};
 
 fn main() {
+    let start = Instant::now();
     println!("Day 1 --------");
     day1::run();
     println!("Day 2 --------");
@@ -23,4 +25,9 @@ fn main() {
     day10::run();
     println!("Day 11 ---------");
     day11::run();
+    println!("Day 12 ---------");
+    day12::run();
+    let duration = start.elapsed();
+
+    println!("Total time to run all solutions: {:?}", duration);
 }

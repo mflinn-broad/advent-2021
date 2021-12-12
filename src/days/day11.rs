@@ -15,7 +15,7 @@ struct Octopus {
 
 struct Position {
     row: usize,
-    col: usize
+    col: usize,
 }
 
 impl Octopus {
@@ -36,28 +36,28 @@ fn get_adjacent_octopi(pos: Position, grid: &Vec<Vec<Octopus>>) -> Vec<Position>
     if pos.row != 0 {
         let position = Position {
             row: pos.row - 1,
-            col: pos.col
+            col: pos.col,
         };
         adjacents.push(position);
     }
     if pos.col != 0 {
         let position = Position {
             row: pos.row,
-            col: pos.col - 1
+            col: pos.col - 1,
         };
         adjacents.push(position);
     }
     if pos.row != (grid.len() - 1) {
         let position = Position {
             row: pos.row + 1,
-            col: pos.col
+            col: pos.col,
         };
         adjacents.push(position);
     }
     if pos.col != (grid[0].len() - 1) {
         let position = Position {
             row: pos.row,
-            col: pos.col + 1
+            col: pos.col + 1,
         };
         adjacents.push(position);
     }
@@ -100,19 +100,18 @@ fn propagate_flash(pos: Position, grid: &mut Vec<Vec<Octopus>>) {
     let mut flash_stack: Vec<Position> = vec![pos];
     while let Some(flash_pos) = flash_stack.pop() {
         let adjacents = get_adjacent_octopi(flash_pos, &grid);
-        adjacents.iter()
-            .for_each(|adjacent| {
-                if !grid[adjacent.row][adjacent.col].flashed_on_step {
-                    grid[adjacent.row][adjacent.col].increase();
-                    if grid[adjacent.row][adjacent.col].e_level > 9 {
-                        grid[adjacent.row][adjacent.col].flashed_on_step = true;
-                        flash_stack.push(Position {
-                            row: adjacent.row,
-                            col: adjacent.col,
-                        });
-                    }
+        adjacents.iter().for_each(|adjacent| {
+            if !grid[adjacent.row][adjacent.col].flashed_on_step {
+                grid[adjacent.row][adjacent.col].increase();
+                if grid[adjacent.row][adjacent.col].e_level > 9 {
+                    grid[adjacent.row][adjacent.col].flashed_on_step = true;
+                    flash_stack.push(Position {
+                        row: adjacent.row,
+                        col: adjacent.col,
+                    });
                 }
-            })
+            }
+        })
     }
 }
 
@@ -182,7 +181,8 @@ fn part_2(input: Vec<Vec<Octopus>>) -> usize {
 }
 
 fn process(input: &str) -> Vec<Vec<Octopus>> {
-    input.lines()
+    input
+        .lines()
         .map(|line| {
             line.chars()
                 .map(|ch| {
