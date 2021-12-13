@@ -1,6 +1,9 @@
 use crate::util;
 use petgraph::graphmap::UnGraphMap;
+use petgraph::dot::{Dot, Config};
 use std::collections::HashSet;
+use std::fs::File;
+use std::io::Write;
 
 pub fn run() {
     let raw_input = util::read_input("inputs/day12.txt").unwrap();
@@ -8,6 +11,8 @@ pub fn run() {
 
     println!("Part 1: {}", part_1(&input));
     println!("Part 2: {}", part_2(&input));
+
+    make_diagram(&input).unwrap();
 }
 
 fn process(input: &str) -> Vec<(&str, &str)> {
@@ -116,6 +121,16 @@ fn count_paths_v2<'a>(
     }
 
     count
+}
+
+fn make_diagram(input: &Vec<(&str, &str)>) -> std::io::Result<()> {
+    let cave_map = UnGraphMap::<&str, ()>::from_edges(input);
+
+    let cave_diagram = Dot::with_config(&cave_map, &[Config::EdgeNoLabel]);
+
+    let cave_diagram = format!("{:?}", cave_diagram);
+    let mut file = File::create("outputs/cave.txt")?;
+    file.write_all(cave_diagram.as_bytes())
 }
 
 #[cfg(test)]
