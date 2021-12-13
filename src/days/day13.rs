@@ -16,25 +16,21 @@ fn part_1(input: (&Vec<Point>, &Vec<Fold>)) -> usize {
 
 fn part_2(input: (Vec<Point>, &Vec<Fold>)) -> String {
     let (points, folds) = input;
-    let final_points: Vec<Point> = folds.iter()
-        .fold(points, |acc, fold| {
-            compute_fold(&acc, *fold)
-        });
+    let final_points: Vec<Point> = folds
+        .iter()
+        .fold(points, |acc, fold| compute_fold(&acc, *fold));
 
-    let max_x = final_points.iter()
-        .max_by(|a, b| a.x.cmp(&b.x)).unwrap().x;
-    let max_y = final_points.iter()
-    .max_by(|a, b| a.y.cmp(&b.y)).unwrap().y;
-    
+    let max_x = final_points.iter().max_by(|a, b| a.x.cmp(&b.x)).unwrap().x;
+    let max_y = final_points.iter().max_by(|a, b| a.y.cmp(&b.y)).unwrap().y;
+
     let mut grid: Vec<Vec<char>> = vec![vec![' '; max_x + 1]; max_y + 1];
-    final_points.iter().for_each(|point| grid[point.y][point.x] = '#');
+    final_points
+        .iter()
+        .for_each(|point| grid[point.y][point.x] = '#');
 
-    let grid: Vec<String> = grid.iter()
-        .map(|line| line.iter().collect())
-        .collect();
-    
+    let grid: Vec<String> = grid.iter().map(|line| line.iter().collect()).collect();
+
     grid.join("\n")
-
 }
 
 #[derive(Debug, Clone, Copy)]
@@ -52,43 +48,36 @@ enum Axis {
 #[derive(Debug, PartialEq, Eq, PartialOrd, Ord, Clone, Copy, Hash)]
 struct Point {
     x: usize,
-    y: usize
+    y: usize,
 }
 
 fn compute_fold(points: &Vec<Point>, fold: Fold) -> Vec<Point> {
-   let mapped_points: Vec<Point> = match fold.axis {
-        Axis::X => {
-            points.iter()
-                .filter(|point| point.x != fold.pos)
-                .map(|point| {
-                    Point {
-                        x: fold.pos - (fold.pos.abs_diff(point.x)),
-                        y: point.y
-                    }
-                })
-                .collect()
-        }
-        Axis::Y => {
-            points.iter()
-                .filter(|point| point.y != fold.pos)
-                .map(|point| {
-                    Point {
-                        x: point.x,
-                        y: fold.pos - (fold.pos.abs_diff(point.y))
-                    }
-                })
-                .collect()
-        }
+    let mapped_points: Vec<Point> = match fold.axis {
+        Axis::X => points
+            .iter()
+            .filter(|point| point.x != fold.pos)
+            .map(|point| Point {
+                x: fold.pos - (fold.pos.abs_diff(point.x)),
+                y: point.y,
+            })
+            .collect(),
+        Axis::Y => points
+            .iter()
+            .filter(|point| point.y != fold.pos)
+            .map(|point| Point {
+                x: point.x,
+                y: fold.pos - (fold.pos.abs_diff(point.y)),
+            })
+            .collect(),
     };
 
-    mapped_points.into_iter()
-        .unique()
-        .collect()
+    mapped_points.into_iter().unique().collect()
 }
 
 fn process(input: &str) -> (Vec<Point>, Vec<Fold>) {
     let (dots_str, folds_str) = input.split_once("\n\n").unwrap();
-    let dots: Vec<Point> = dots_str.lines()
+    let dots: Vec<Point> = dots_str
+        .lines()
         .map(|line| {
             let (x, y) = line.trim().split_once(',').unwrap();
             Point {
@@ -97,11 +86,10 @@ fn process(input: &str) -> (Vec<Point>, Vec<Fold>) {
             }
         })
         .collect();
-    
-    let folds: Vec<Fold> = folds_str.lines()
-        .map(|line| {
-            line.trim().split_whitespace().nth(2)
-        })
+
+    let folds: Vec<Fold> = folds_str
+        .lines()
+        .map(|line| line.trim().split_whitespace().nth(2))
         .map(|fold_str| {
             let fold_str = fold_str.unwrap();
             let (axis, pos) = fold_str.split_once('=').unwrap();
@@ -118,7 +106,7 @@ fn process(input: &str) -> (Vec<Point>, Vec<Fold>) {
             }
         })
         .collect();
-    
+
     (dots, folds)
 }
 

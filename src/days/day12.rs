@@ -1,6 +1,6 @@
 use crate::util;
+use petgraph::dot::{Config, Dot};
 use petgraph::graphmap::UnGraphMap;
-use petgraph::dot::{Dot, Config};
 use std::collections::HashSet;
 use std::fs::File;
 use std::io::Write;

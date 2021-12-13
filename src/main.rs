@@ -1,7 +1,7 @@
 use advent_2021::days::*;
 use itertools::Itertools;
-use std::time::{Duration, Instant};
 use std::collections::HashMap;
+use std::time::{Duration, Instant};
 
 fn main() {
     let start = Instant::now();
@@ -75,7 +75,8 @@ fn main() {
 
     println!("Total time to run all solutions: {:?}", total_duration);
 
-    day_durations.iter()
+    day_durations
+        .iter()
         .sorted_by(|(_, dur_1), (_, dur_2)| dur_2.cmp(dur_1))
         .for_each(|(day, dur)| {
             println!("Duration to run day {}: {:?}", day, dur);
