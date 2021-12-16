@@ -1,3 +1,5 @@
+use itertools::{Itertools, MinMaxResult};
+
 use crate::util;
 use std::collections::HashMap;
 
@@ -45,10 +47,12 @@ fn polymer_strength(input: Input, steps: usize) -> usize {
         new_pairs
     });
 
-    let min = singles.values().min().unwrap();
-    let max = singles.values().max().unwrap();
+    if let MinMaxResult::MinMax(min, max) = singles.values().minmax() {
+        max - min
+    } else {
+        0
+    }
 
-    max - min
 }
 
 fn process(input: &str) -> Input {
