@@ -81,6 +81,11 @@ fn main() {
     day15::run();
     day_durations.insert(15, day_15_start.elapsed());
 
+    let day_16_start = Instant::now();
+    println!("Day 16 --------");
+    day16::run();
+    day_durations.insert(16, day_16_start.elapsed());
+
     let total_duration = start.elapsed();
 
     println!("Total time to run all solutions: {:?}", total_duration);

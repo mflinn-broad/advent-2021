@@ -34,7 +34,6 @@ fn successors_small(current: &(i32, i32), grid: &[Vec<i32>]) -> Vec<((i32, i32),
         })
         .flatten()
         .collect::<Vec<_>>()
-
 }
 
 fn part_2(input: &[Vec<i32>]) -> i32 {
