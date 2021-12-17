@@ -6,17 +6,17 @@ const SURROUNDING_POINTS: [(i32, i32); 4] = [(1, 0), (-1, 0), (0, 1), (0, -1)];
 pub fn run() {
     let raw_input = util::read_input("inputs/day15.txt").unwrap();
     let input = process(&raw_input);
-    println!("Part 1: {}", part_1(input.clone()));
-    println!("Part 2: {}", part_2(input));
+    println!("Part 1: {}", part_1(&input));
+    println!("Part 2: {}", part_2(&input));
 }
 
-fn part_1(input: Vec<Vec<i32>>) -> i32 {
+fn part_1(input: &[Vec<i32>]) -> i32 {
     let start = (0, 0);
     let goal = (input.len() as i32 - 1, input[0].len() as i32 - 1);
 
     dijkstra::dijkstra(
         &start,
-        |curr| successors_small(curr, &input),
+        |curr| successors_small(curr, input),
         |&node| node == goal,
     )
     .unwrap()
@@ -37,14 +37,14 @@ fn successors_small(current: &(i32, i32), grid: &[Vec<i32>]) -> Vec<((i32, i32),
 
 }
 
-fn part_2(input: Vec<Vec<i32>>) -> i32 {
+fn part_2(input: &[Vec<i32>]) -> i32 {
     let square_size = input.len();
     let start = (0, 0);
     let goal = (square_size as i32 * 5 - 1, square_size as i32 * 5 - 1);
 
     dijkstra::dijkstra(
         &start,
-        |curr| successors_large(curr, &input),
+        |curr| successors_large(curr, input),
         |&node| node == goal,
     )
     .unwrap()
@@ -96,7 +96,7 @@ mod tests {
         let raw_input = util::read_input("inputs/day15.txt").unwrap();
         b.iter(|| {
             let input = process(&raw_input);
-            part_1(input);
+            part_1(&input);
         });
     }
 
@@ -105,7 +105,7 @@ mod tests {
         let raw_input = util::read_input("inputs/day15.txt").unwrap();
         b.iter(|| {
             let input = process(&raw_input);
-            part_2(input);
+            part_2(&input);
         });
     }
 }
