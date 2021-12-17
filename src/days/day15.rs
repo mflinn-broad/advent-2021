@@ -16,14 +16,14 @@ fn part_1(input: Vec<Vec<i32>>) -> i32 {
 
     dijkstra::dijkstra(
         &start,
-        |(x, y)| successors_small((x, y), &input),
+        |curr| successors_small(curr, &input),
         |&node| node == goal,
     )
     .unwrap()
     .1
 }
 
-fn successors_small(current: (&i32, &i32), grid: &[Vec<i32>]) -> Vec<((i32, i32), i32)> {
+fn successors_small(current: &(i32, i32), grid: &[Vec<i32>]) -> Vec<((i32, i32), i32)> {
     let (x, y) = current;
     SURROUNDING_POINTS
         .iter()
@@ -34,6 +34,7 @@ fn successors_small(current: (&i32, &i32), grid: &[Vec<i32>]) -> Vec<((i32, i32)
         })
         .flatten()
         .collect::<Vec<_>>()
+
 }
 
 fn part_2(input: Vec<Vec<i32>>) -> i32 {
@@ -43,14 +44,14 @@ fn part_2(input: Vec<Vec<i32>>) -> i32 {
 
     dijkstra::dijkstra(
         &start,
-        |(x, y)| successors_large((x, y), &input),
+        |curr| successors_large(curr, &input),
         |&node| node == goal,
     )
     .unwrap()
     .1
 }
 
-fn successors_large(current: (&i32, &i32), grid: &[Vec<i32>]) -> Vec<((i32, i32), i32)> {
+fn successors_large(current: &(i32, i32), grid: &[Vec<i32>]) -> Vec<((i32, i32), i32)> {
     let (x, y) = current;
     let square_size = grid.len();
     SURROUNDING_POINTS
