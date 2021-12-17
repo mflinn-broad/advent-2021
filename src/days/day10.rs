@@ -15,7 +15,7 @@ fn process(input: &str) -> Vec<Vec<char>> {
     input.lines().map(|line| line.chars().collect()).collect()
 }
 
-fn part_1(input: &Vec<Vec<char>>) -> usize {
+fn part_1(input: &[Vec<char>]) -> usize {
     let mut error_tracker: HashMap<char, usize> = HashMap::new();
     input.iter().for_each(|line| {
         let mut stack: Vec<char> = Vec::new();
@@ -48,7 +48,7 @@ fn part_1(input: &Vec<Vec<char>>) -> usize {
         })
 }
 
-fn part_2(input: &Vec<Vec<char>>) -> usize {
+fn part_2(input: &[Vec<char>]) -> usize {
     // remove corrupted and complete lines
     let completion_scores: Vec<usize> = input
         .iter()

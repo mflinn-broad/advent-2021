@@ -37,8 +37,8 @@ fn part_1(input: LineList) -> usize {
     let lines = get_verticals_and_horizontals(input);
     let mut point_tracker: HashMap<Point, usize> = HashMap::new();
     lines.iter().for_each(|line| match line_type(line) {
-        LineType::Vertical => update_vertical(&line, &mut point_tracker),
-        LineType::Horizontal => update_horizontal(&line, &mut point_tracker),
+        LineType::Vertical => update_vertical(line, &mut point_tracker),
+        LineType::Horizontal => update_horizontal(line, &mut point_tracker),
         _ => panic!("unreachable"),
     });
     count_overlaps(&point_tracker)
@@ -47,9 +47,9 @@ fn part_1(input: LineList) -> usize {
 fn part_2(lines: LineList) -> usize {
     let mut point_tracker: HashMap<Point, usize> = HashMap::new();
     lines.iter().for_each(|line| match line_type(line) {
-        LineType::Vertical => update_vertical(&line, &mut point_tracker),
-        LineType::Horizontal => update_horizontal(&line, &mut point_tracker),
-        _ => update_diagonal(&line, &mut point_tracker),
+        LineType::Vertical => update_vertical(line, &mut point_tracker),
+        LineType::Horizontal => update_horizontal(line, &mut point_tracker),
+        _ => update_diagonal(line, &mut point_tracker),
     });
     count_overlaps(&point_tracker)
 }

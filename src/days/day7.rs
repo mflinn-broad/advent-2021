@@ -17,13 +17,13 @@ fn process(input: &str) -> Vec<usize> {
 }
 
 fn part_1(input: &mut Vec<usize>) -> usize {
-    input.sort();
+    input.sort_unstable();
 
     let median = input[(input.len() / 2) + (input.len() % 2)];
-    cost_at(median, &input)
+    cost_at(median, input)
 }
 
-fn part_2(input: &Vec<usize>) -> usize {
+fn part_2(input: &[usize]) -> usize {
     let mean: usize = input.iter().sum::<usize>() / input.len();
     (mean - 5..mean + 5)
         .map(|pos| cost_at_v2(pos, input))
@@ -31,11 +31,11 @@ fn part_2(input: &Vec<usize>) -> usize {
         .unwrap()
 }
 
-fn cost_at(pos: usize, crabs: &Vec<usize>) -> usize {
+fn cost_at(pos: usize, crabs: &[usize]) -> usize {
     crabs.iter().map(|crab_pos| pos.abs_diff(*crab_pos)).sum()
 }
 
-fn cost_at_v2(pos: usize, crabs: &Vec<usize>) -> usize {
+fn cost_at_v2(pos: usize, crabs: &[usize]) -> usize {
     crabs
         .iter()
         .map(|crab_pos| {

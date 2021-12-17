@@ -30,9 +30,7 @@ fn process_generations(state: [u64; 9], num_generations: usize) -> usize {
         let mut temp_state: [u64; 9] = [0; 9];
         temp_state.copy_from_slice(&curr_state);
 
-        for bucket in 1..9 {
-            curr_state[bucket - 1] = temp_state[bucket];
-        }
+        curr_state[..(9 - 1)].clone_from_slice(&temp_state[1..9]);
 
         curr_state[6] += temp_state[0];
         curr_state[8] = temp_state[0];

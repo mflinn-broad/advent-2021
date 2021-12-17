@@ -22,7 +22,7 @@ fn process(input: &str) -> Vec<(&str, &str)> {
         .collect()
 }
 
-fn part_1(input: &Vec<(&str, &str)>) -> usize {
+fn part_1(input: &[(&str, &str)]) -> usize {
     let cave_map = UnGraphMap::<&str, ()>::from_edges(input);
     let mut visit_tracker: HashSet<&str> = HashSet::new();
     visit_tracker.insert("start");
@@ -30,7 +30,7 @@ fn part_1(input: &Vec<(&str, &str)>) -> usize {
     count_simple_paths(&cave_map, "start", &mut visit_tracker)
 }
 
-fn part_2(input: &Vec<(&str, &str)>) -> usize {
+fn part_2(input: &[(&str, &str)]) -> usize {
     let cave_map = UnGraphMap::<&str, ()>::from_edges(input);
     let mut visit_tracker: HashSet<&str> = HashSet::new();
     visit_tracker.insert("start");
@@ -70,7 +70,7 @@ fn count_simple_paths<'a>(
                 visited_small_caves.insert(connected_cave);
             }
         }
-        count += count_simple_paths(&cave_system, connected_cave, visited_small_caves);
+        count += count_simple_paths(cave_system, connected_cave, visited_small_caves);
         visited_small_caves.remove(connected_cave);
     }
     count
@@ -102,7 +102,7 @@ fn count_paths_v2<'a>(
             }
         }
 
-        if let Some(_) = twive_visited_cave {
+        if twive_visited_cave.is_some() {
             count += count_simple_paths(cave_system, connected_cave, visited_small_caves);
         } else {
             count += count_paths_v2(
@@ -123,7 +123,7 @@ fn count_paths_v2<'a>(
     count
 }
 
-fn make_diagram(input: &Vec<(&str, &str)>) -> std::io::Result<()> {
+fn make_diagram(input: &[(&str, &str)]) -> std::io::Result<()> {
     let cave_map = UnGraphMap::<&str, ()>::from_edges(input);
 
     let cave_diagram = Dot::with_config(&cave_map, &[Config::EdgeNoLabel]);

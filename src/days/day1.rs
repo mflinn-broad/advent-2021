@@ -7,15 +7,15 @@ fn process_input(input: String) -> Vec<i64> {
         .collect()
 }
 
-fn part_1(data: &Vec<i64>) -> usize {
+fn part_1(data: &[i64]) -> usize {
     get_num_increasing_windows(2, data)
 }
 
-fn part_2(data: &Vec<i64>) -> usize {
+fn part_2(data: &[i64]) -> usize {
     get_num_increasing_windows(4, data)
 }
 
-fn get_num_increasing_windows(window_size: usize, data: &Vec<i64>) -> usize {
+fn get_num_increasing_windows(window_size: usize, data: &[i64]) -> usize {
     data.windows(window_size)
         .filter(|window| window[0] < window[window_size - 1])
         .count()

@@ -31,7 +31,7 @@ impl Octopus {
     }
 }
 
-fn get_adjacent_octopi(pos: Position, grid: &Vec<Vec<Octopus>>) -> Vec<Position> {
+fn get_adjacent_octopi(pos: Position, grid: &[Vec<Octopus>]) -> Vec<Position> {
     let mut adjacents: Vec<Position> = Vec::new();
     if pos.row != 0 {
         let position = Position {
@@ -99,7 +99,7 @@ fn get_adjacent_octopi(pos: Position, grid: &Vec<Vec<Octopus>>) -> Vec<Position>
 fn propagate_flash(pos: Position, grid: &mut Vec<Vec<Octopus>>) {
     let mut flash_stack: Vec<Position> = vec![pos];
     while let Some(flash_pos) = flash_stack.pop() {
-        let adjacents = get_adjacent_octopi(flash_pos, &grid);
+        let adjacents = get_adjacent_octopi(flash_pos, grid);
         adjacents.iter().for_each(|adjacent| {
             if !grid[adjacent.row][adjacent.col].flashed_on_step {
                 grid[adjacent.row][adjacent.col].increase();

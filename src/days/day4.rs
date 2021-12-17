@@ -11,7 +11,7 @@ struct BingoCard {
 }
 
 impl BingoCard {
-    fn new(rows: &Vec<Vec<u64>>) -> Self {
+    fn new(rows: &[Vec<u64>]) -> Self {
         let card: Vec<Vec<Cell>> = rows
             .iter()
             .map(|line| line.iter().map(|val| Cell::new(*val)).collect())
@@ -115,7 +115,7 @@ fn process(input: &str) -> (CalledNumbers, Vec<BingoCard>) {
     let mut chunks = input.split("\n\n");
 
     let called_numbers = process_header(chunks.next().unwrap());
-    let cards: Vec<BingoCard> = chunks.map(|card| process_card(card)).collect();
+    let cards: Vec<BingoCard> = chunks.map(process_card).collect();
     (called_numbers, cards)
 }
 

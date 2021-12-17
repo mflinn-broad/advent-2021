@@ -11,7 +11,7 @@ pub fn run() {
 
 fn part_1(input: (&Vec<Point>, &Vec<Fold>)) -> usize {
     let (points, folds) = input;
-    compute_fold(points, folds[0]).iter().count()
+    compute_fold(points, folds[0]).len()
 }
 
 fn part_2(input: (Vec<Point>, &Vec<Fold>)) -> String {
@@ -51,7 +51,7 @@ struct Point {
     y: usize,
 }
 
-fn compute_fold(points: &Vec<Point>, fold: Fold) -> Vec<Point> {
+fn compute_fold(points: &[Point], fold: Fold) -> Vec<Point> {
     let mapped_points: Vec<Point> = match fold.axis {
         Axis::X => points
             .iter()

@@ -28,7 +28,7 @@ fn process_input(input: String) -> Vec<(Direction, i64)> {
         .collect()
 }
 
-fn part_1(input: &Vec<(Direction, i64)>) -> i64 {
+fn part_1(input: &[(Direction, i64)]) -> i64 {
     let position = input.iter().fold((0, 0), |acc, (dir, amt)| match dir {
         Direction::Forward => (acc.0 + amt, acc.1),
         Direction::Down => (acc.0, acc.1 + amt),
@@ -37,7 +37,7 @@ fn part_1(input: &Vec<(Direction, i64)>) -> i64 {
     position.0 * position.1
 }
 
-fn part_2(input: &Vec<(Direction, i64)>) -> i64 {
+fn part_2(input: &[(Direction, i64)]) -> i64 {
     let coordinates = input.iter().fold((0, 0, 0), |acc, (dir, amt)| match dir {
         Direction::Forward => (acc.0 + amt, acc.1 + amt * acc.2, acc.2),
         Direction::Down => (acc.0, acc.1, acc.2 + amt),

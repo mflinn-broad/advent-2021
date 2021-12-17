@@ -34,7 +34,7 @@ fn polymer_strength(input: Input, steps: usize) -> usize {
             let single_count = singles.get_mut(single).unwrap();
             *single_count += pair_count;
 
-            let new_pair_a = format!("{}{}", pair.chars().nth(0).unwrap(), single);
+            let new_pair_a = format!("{}{}", pair.chars().next().unwrap(), single);
             let new_pair_b = format!("{}{}", single, pair.chars().nth(1).unwrap());
 
             let new_pair_a_count = new_pairs.entry(new_pair_a).or_insert(0);
@@ -52,7 +52,6 @@ fn polymer_strength(input: Input, steps: usize) -> usize {
     } else {
         0
     }
-
 }
 
 fn process(input: &str) -> Input {

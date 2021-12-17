@@ -21,7 +21,7 @@ fn process(input: &str) -> Vec<(Vec<&str>, Vec<&str>)> {
         .collect()
 }
 
-fn part_1(input: &Vec<(Vec<&str>, Vec<&str>)>) -> u32 {
+fn part_1(input: &[(Vec<&str>, Vec<&str>)]) -> u32 {
     let unique_segment_counts = vec![2, 3, 4, 7];
     let outputs: Vec<Vec<&str>> = input.iter().map(|line| line.1.clone()).collect();
     outputs
@@ -36,7 +36,7 @@ fn part_1(input: &Vec<(Vec<&str>, Vec<&str>)>) -> u32 {
         })
 }
 
-fn part_2(input: &Vec<(Vec<&str>, Vec<&str>)>) -> u32 {
+fn part_2(input: &[(Vec<&str>, Vec<&str>)]) -> u32 {
     input
         .iter()
         .map(|(inputs, output)| {

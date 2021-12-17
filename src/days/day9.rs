@@ -24,7 +24,7 @@ fn is_local_minima(target: u8, adjacents: Vec<u8>) -> bool {
     adjacents.iter().all(|val| target < *val)
 }
 
-fn get_adjacents(grid: &Vec<Vec<u8>>, pos: (usize, usize)) -> Vec<u8> {
+fn get_adjacents(grid: &[Vec<u8>], pos: (usize, usize)) -> Vec<u8> {
     let (row, col) = pos;
     let mut adjacents: Vec<u8> = Vec::new();
     if row != 0 {
@@ -42,7 +42,7 @@ fn get_adjacents(grid: &Vec<Vec<u8>>, pos: (usize, usize)) -> Vec<u8> {
     adjacents
 }
 
-fn get_adjacent_points(grid: &Vec<Vec<u8>>, pos: (usize, usize)) -> Vec<(usize, usize)> {
+fn get_adjacent_points(grid: &[Vec<u8>], pos: (usize, usize)) -> Vec<(usize, usize)> {
     let (row, col) = pos;
     let mut adjacents: Vec<(usize, usize)> = Vec::new();
     if row != 0 {
@@ -60,7 +60,7 @@ fn get_adjacent_points(grid: &Vec<Vec<u8>>, pos: (usize, usize)) -> Vec<(usize, 
     adjacents
 }
 
-fn get_basin_size(grid: &Vec<Vec<u8>>, pos: (usize, usize)) -> usize {
+fn get_basin_size(grid: &[Vec<u8>], pos: (usize, usize)) -> usize {
     let mut size: usize = 0;
     let mut queue: VecDeque<(usize, usize)> = VecDeque::new();
     let mut seen: Vec<(usize, usize)> = Vec::new();
@@ -80,7 +80,7 @@ fn get_basin_size(grid: &Vec<Vec<u8>>, pos: (usize, usize)) -> usize {
     size
 }
 
-fn part_1(input: &Vec<Vec<u8>>) -> u32 {
+fn part_1(input: &[Vec<u8>]) -> u32 {
     input
         .iter()
         .enumerate()
@@ -97,14 +97,14 @@ fn part_1(input: &Vec<Vec<u8>>) -> u32 {
         })
 }
 
-fn part_2(input: &Vec<Vec<u8>>) -> usize {
+fn part_2(input: &[Vec<u8>]) -> usize {
     let basins: Vec<usize> = Vec::new();
     let mut basins = input
         .iter()
         .enumerate()
         .fold(basins, |mut basins, (row_idx, row)| {
             row.iter().enumerate().for_each(|(col, height)| {
-                let adjacents = get_adjacents(&input, (row_idx, col));
+                let adjacents = get_adjacents(input, (row_idx, col));
                 if is_local_minima(*height, adjacents) {
                     let basin_size = get_basin_size(input, (row_idx, col));
                     basins.push(basin_size);
@@ -114,7 +114,7 @@ fn part_2(input: &Vec<Vec<u8>>) -> usize {
         });
 
     basins.sort_by(|a, b| b.cmp(a));
-    basins.iter().take(3).fold(1, |acc, val| acc * val)
+    basins.iter().take(3).product()
 }
 
 #[cfg(test)]
